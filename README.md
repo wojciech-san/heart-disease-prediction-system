@@ -112,7 +112,7 @@ For the detailed analysis, model comparison, and feature insights, refer to the 
 
 Once the service is running (either locally or via Docker), you can submit a prediction request using a tool like `curl` or a Python script.
 
-**Request Endpoint:** `http://localhost:9696/predict`
+**Local Endpoint:** `http://localhost:9696/predict`
 
 **Example Patient Data:**
 ```json
@@ -136,3 +136,85 @@ Once the service is running (either locally or via Docker), you can submit a pre
   "prediction": 1,
   "probability": 0.684711572055718
 }
+```
+**Azure Endpoint:** `https://hdp-app-cyg9a7c0h7cdaebt.westeurope-01.azurewebsites.net/predict`
+    
+You can make predictions using your deployed API on Azure in several ways:
+
+1️⃣ Using curl (Linux/macOS/Windows with Git Bash)
+```
+curl -X POST "https://hdp-app-cyg9a7c0h7cdaebt.westeurope-01.azurewebsites.net/predict" \
+-H "accept: application/json" \
+-H "Content-Type: application/json" \
+-d '{
+    "age": 56,
+    "sex": "Male",
+    "cp": "asymptomatic",
+    "trestbps": 150.0,
+    "chol": 213.0,
+    "fbs": "True",
+    "restecg": "normal",
+    "thalch": 125.0,
+    "exang": "True",
+    "oldpeak": 1.0,
+    "slope": "flat",
+    "ca": 0.0,
+    "thal": "normal"
+}'
+
+```
+
+2️⃣ Using PowerShell (Invoke-RestMethod)
+```
+$uri = "https://hdp-app-cyg9a7c0h7cdaebt.westeurope-01.azurewebsites.net/predict"
+
+$body = @{
+    age = 56
+    sex = "Male"
+    cp = "asymptomatic"
+    trestbps = 150.0
+    chol = 213.0
+    fbs = "True"
+    restecg = "normal"
+    thalch = 125.0
+    exang = "True"
+    oldpeak = 1.0
+    slope = "flat"
+    ca = 0.0
+    thal = "normal"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri $uri -Method POST -Body $body -ContentType "application/json"
+
+```
+
+3️⃣ Using Swagger UI
+
+* Open the Swagger UI at:
+  https://hdp-app-cyg9a7c0h7cdaebt.westeurope-01.azurewebsites.net/docs
+
+* Locate the predict endpoint.
+
+* Click Try it out, provide your patient JSON, and click Execute to see the prediction.
+
+Note:
+
+* The Azure Web App is running on the Free (F1) tier, which is the most basic hosting plan. The first request after inactivity may take  several seconds to respond (“cold start”).
+
+* Make sure the input JSON matches the expected format to avoid errors.
+
+## 📚 Documentation
+
+This project includes a docs folder containing detailed instructions on how to deploy the Docker container to an Azure Web App.
+
+* Inside the docs folder, you will find step-by-step guidance, screenshots, and examples for:
+
+    * Pushing your Docker image to Docker Hub
+
+    * Creating and configuring an Azure Web App
+
+    * Setting environment variables and ports
+
+    * Verifying your deployment and testing the API
+
+Tip: If you are new to deploying Docker containers on Azure, start with the instructions in the docs folder for a complete walkthrough.
