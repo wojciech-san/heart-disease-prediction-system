@@ -41,3 +41,11 @@ def predict(data: PatientData):
         "prediction": pred_class,
         "probability": float(pred_proba)
     }
+
+@app.get("/health", status_code=200)
+def get_health_status():
+    """
+    This is health check endpoint.
+    Returns a 200 OK status to indicate the service is running.
+    """
+    return {"status": "ok"}

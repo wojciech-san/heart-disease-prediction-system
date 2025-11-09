@@ -13,5 +13,5 @@ COPY ["models/random_forest_heart_disease_v1.bin", "./models/random_forest_heart
 
 EXPOSE 9696
 
-ENTRYPOINT ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "9696"]
+CMD ["uvicorn", "predict:app", "--host", "0.0.0.0", "--port", "9696"]
 
